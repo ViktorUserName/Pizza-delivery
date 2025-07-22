@@ -14,36 +14,6 @@ export default function Order() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function checkout() {
-    setLoading(true);
-    console.log(cart[0].pizza.id)
-    const itemsToSend = [];
-
-    for (const item of cart) {
-      const pizzaId = item.pizza.id;
-      const quantity = 1;
-
-       itemsToSend.push({
-      pizza_size: pizzaId,
-      quantity: quantity,
-    });
-  }
-    console.log(itemsToSend)
-
-    await fetch("http://localhost:8000/api/orders/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        items: itemsToSend
-      }),
-    });
-
-    setCart([]);
-    setLoading(false);
-  }
-
   let price, selectedPizza;
 
   if (!loading) {
@@ -54,7 +24,7 @@ export default function Order() {
     );
   }
 
-  // console.log(selectedPizza, price);
+  console.log(selectedPizza, price);
 
   async function fetchPizzaTypes() {
     try {
@@ -158,7 +128,7 @@ return (
           )}
         </form>
       </div>
-      {loading ? <h2>LOADING …</h2> : <Cart  cart={cart} checkout={checkout} />}
+      {loading ? <h2>LOADING …</h2> : <Cart  cart={cart} />}
     </div>
   );
 }

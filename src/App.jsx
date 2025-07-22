@@ -8,7 +8,7 @@ const App = () => {
     <div>
       <h1 className="logo">Padre Gino's - Order Now</h1>
       <Order />
-      <PizzaOfTheDay/>
+      <PizzaOfTheDay />
     </div>
   );
 };
