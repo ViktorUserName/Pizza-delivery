@@ -16,11 +16,11 @@ export default function Order() {
 
   async function checkout() {
     setLoading(true);
-    console.log(cart[0].pizza.id)
+    
     const itemsToSend = [];
 
     for (const item of cart) {
-      const pizzaId = item.pizza.id;
+      const pizzaId = item.pizza_size_id;
       const quantity = 1;
 
        itemsToSend.push({
@@ -28,7 +28,8 @@ export default function Order() {
       quantity: quantity,
     });
   }
-    console.log(itemsToSend)
+    console.log(itemsToSend, pizzaSize)
+    console.log(cart)
 
     await fetch("http://localhost:8000/api/orders/", {
       method: "POST",
@@ -50,7 +51,7 @@ export default function Order() {
     selectedPizza = pizzaTypes.find((pizza) => pizza.id == pizzaType);
 
     price = intl.format(
-      selectedPizza.sizes ? selectedPizza.sizes[pizzaSize] : "",
+      selectedPizza.price ? selectedPizza.price[pizzaSize] : "",
     );
   }
 
@@ -58,7 +59,9 @@ export default function Order() {
 
   async function fetchPizzaTypes() {
     try {
-      const pizzasRes = await fetch("/api/pizzas");
+      // const pizzasRes = await fetch("http://localhost:8000/pizza/pizzas/");
+      
+      const pizzasRes = await fetch("http://localhost:8000/pizza/pizzas/");
       const pizzasJson = await pizzasRes.json();
       setPizzaTypes(pizzasJson);
       // Устанавливаем ID первой пиццы из списка как значение по умолчанию
@@ -82,12 +85,39 @@ return (
         <h2>Create Order</h2>
         <form
           onSubmit={(e) => {
-            e.preventDefault();
-            setCart([
-              ...cart,
-              { pizza: selectedPizza, size: pizzaSize, price },
-            ]);
-          }}
+    e.preventDefault();
+    if (!selectedPizza) {
+      console.error("Ошибка: Пицца не выбрана!");
+      return;
+    }
+
+    // Находим конкретный объект размера (например, {id: 1, size: "S", price: "8.00"})
+    // из массива selectedPizza.sizes
+    const selectedSizeObject = selectedPizza.sizes.find(
+      (s) => s.size === pizzaSize // Ищем по строковому значению "S", "M", "L"
+    );
+
+    if (!selectedSizeObject) {
+      console.error("Ошибка: Выбранный размер не найден!");
+      return;
+    }
+
+    // --- ВОТ ГДЕ ИСПРАВЛЕНИЕ: СОХРАНЯЕМ ТОЛЬКО НУЖНЫЙ ID И ДРУГИЕ ДАННЫЕ В CART ---
+    const newItem = {
+      pizza_size_id: selectedSizeObject.id, // <--- ЭТО ID, КОТОРЫЙ НУЖЕН БЭКЕНДУ!
+      quantity: 1, // Или возьмите из поля ввода количества
+      // Можно сохранить другие данные для отображения в корзине,
+      // чтобы не делать лишних запросов и не хранить весь объект Pizza:
+      pizza_name: selectedPizza.name,
+      size_label: selectedSizeObject.size,
+      item_price: parseFloat(selectedSizeObject.price), // Цена как число
+      pizza_image_url: selectedPizza.image_url,
+    };
+    // -----------------------------------------------------------------------------
+
+    setCart([...cart, newItem]);
+    console.log("Добавлено в корзину:", newItem); // Убедитесь, что здесь pizza_size_id - число!
+  }}
         >
           <div>
             <div>
