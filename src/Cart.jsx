@@ -15,8 +15,8 @@
 //       <ul>
 //         {cart.map((item, index) => (
 //           <li key={index}>
-//             <span className="size">{item.size}</span> – 
-//             <span className="type">{item.pizza.name}</span> – 
+//             <span className="size">{item.size}</span> –
+//             <span className="type">{item.pizza.name}</span> –
 //             <span className="price">{item.price}</span>
 //           </li>
 //         ))}
@@ -52,8 +52,12 @@ export default function Cart({ cart, checkout }) {
               {/* Используем новую структуру данных */}
               <span className="size">{item.size_label}</span> –
               <span className="type">{item.pizza_name}</span> –
-              <span className="price">{intl.format(item.item_price)}</span> {/* Форматируем цену для отображения */}
-              {item.quantity > 1 && <span className="quantity"> (x{item.quantity})</span>} {/* Отображаем количество, если больше 1 */}
+              <span className="price">{intl.format(item.item_price)}</span>{" "}
+              {/* Форматируем цену для отображения */}
+              {item.quantity > 1 && (
+                <span className="quantity"> (x{item.quantity})</span>
+              )}{" "}
+              {/* Отображаем количество, если больше 1 */}
             </li>
           ))}
         </ul>

@@ -7,7 +7,6 @@ const intl = new Intl.NumberFormat("en-US", {
 
 const PizzaOfTheDay = () => {
   const pizzaOfTheDay = usePizzaOfTheDay();
-
   if (!pizzaOfTheDay) {
     return <div>Loading...</div>;
   }
@@ -20,7 +19,7 @@ const PizzaOfTheDay = () => {
           <h3>{pizzaOfTheDay.name}</h3>
           <p>{pizzaOfTheDay.description}</p>
           <p className="pizza-of-the-day-price">
-            From: {intl.format(pizzaOfTheDay.sizes.S)}
+            From: {intl.format(pizzaOfTheDay.price.S)}
           </p>
         </div>
         <img
