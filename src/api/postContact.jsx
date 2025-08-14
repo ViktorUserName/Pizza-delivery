@@ -1,5 +1,5 @@
 export default async function postContact(name, email, message) {
-    const response = await fetch('http://178.62.234.8/contact/', {
+    const response = await fetch('http://178.62.234.8/api/contact/', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

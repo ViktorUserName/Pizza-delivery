@@ -6,7 +6,7 @@ export const usePizzaOfTheDay = () => {
   useEffect(() => {
     async function fetchPizzaOfTheDay() {
       const response = await fetch(
-        "http://178.62.234.8/pizza/pizza-of-the-day/",
+        "http://178.62.234.8/api/pizza/pizza-of-the-day/",
       );
       const data = await response.json();
       setPizzaOfTheDay(data);
