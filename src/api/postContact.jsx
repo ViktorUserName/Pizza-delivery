@@ -1,5 +1,5 @@
 export default async function postContact(name, email, message) {
-    const response = await fetch('http://127.0.0.1:8000/contact/', {
+    const response = await fetch('http://178.62.234.8/contact/', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -11,5 +11,7 @@ export default async function postContact(name, email, message) {
         throw new Error("Network response was not ok. Send help.")
     }
 
-    return await response.json()
+    return await response.json()    
 }
+
+// http://178.62.234.8/contact/

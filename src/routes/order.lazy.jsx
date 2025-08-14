@@ -37,7 +37,7 @@ export default function Order() {
     console.log(itemsToSend, pizzaSize)
     console.log(cart)
 
-    await fetch('http://localhost:8000/api/orders/', {
+    await fetch('http://178.62.234.8/api/orders/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export default function Order() {
 
   async function fetchPizzaTypes() {
     try {
-      const pizzasRes = await fetch('http://localhost:8000/pizza/pizzas/')
+      const pizzasRes = await fetch('http://178.62.234.8/pizza/pizzas/')
       const pizzasJson = await pizzasRes.json()
       setPizzaTypes(pizzasJson)
       if (pizzasJson.length > 0) {
